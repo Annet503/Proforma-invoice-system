@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f25">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Proforma Invoice System</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="brand-lockup"><div class="brand-mark" id="brandMark">TMX</div><div><strong id="brandName">Theomax Wood Works</strong><span>INVOICE DESK</span></div></div>
+      <nav class="nav-list">
+        <button class="nav-link active" data-page="dashboard"><span class="nav-icon">⌂</span>Dashboard</button>
+        <button class="nav-link" data-page="new-invoice"><span class="nav-icon">＋</span>New invoice</button>
+        <button class="nav-link" data-page="history"><span class="nav-icon">▤</span>Invoice history</button>
+        <div class="nav-divider"></div>
+        <button class="nav-link" data-page="customers"><span class="nav-icon">♙</span>Customers</button>
+        <button class="nav-link" data-page="products"><span class="nav-icon">▦</span>Products &amp; services</button>
+        <div class="nav-spacer"></div>
+        <button class="nav-link" data-page="settings"><span class="nav-icon">⚙</span>Company settings</button>
+      </nav>
+      <div class="sidebar-footer"><span class="status-dot"></span><span id="storageStatus">Device storage · sign in to sync</span></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><div><p class="eyebrow" id="pageEyebrow">OVERVIEW</p><h1 id="pageTitle">Dashboard</h1></div><button class="button button-primary top-action" data-goto="new-invoice">＋ <span>Create invoice</span></button></header>
+      <section class="page active" id="page-dashboard">
+        <div class="welcome-row"><div><h2>Good business starts with a clear quote.</h2><p>Create, save and print proforma invoices in a few steps.</p></div><div class="welcome-date" id="todayLabel"></div></div>
+        <div class="metric-grid">
+          <article class="metric-card"><span class="metric-label">Invoices this month</span><strong id="metricMonth">0</strong><span class="metric-note">Saved proforma invoices</span></article>
+          <article class="metric-card"><span class="metric-label">Total quoted this month</span><strong id="metricTotal">UGX 0</strong><span class="metric-note">Based on saved invoices</span></article>
+          <article class="metric-card"><span class="metric-label">Customers</span><strong id="metricCustomers">0</strong><span class="metric-note">In your customer list</span></article>
+        </div>
+        <div class="content-card recent-card"><div class="card-heading"><div><h3>Recent invoices</h3><p>Your latest saved documents</p></div><button class="text-button" data-goto="history">View all invoices <span>→</span></button></div><div id="recentInvoices"></div></div>
+        <div class="quick-grid">
+          <button class="quick-card" data-goto="new-invoice"><span class="quick-icon">＋</span><span><strong>Prepare a proforma</strong><small>Add a customer, items and prices</small></span><span class="quick-arrow">→</span></button>
+          <button class="quick-card" data-goto="customers"><span class="quick-icon">♙</span><span><strong>Add a customer</strong><small>Keep customer details ready</small></span><span class="quick-arrow">→</span></button>
+        </div>
+      </section>
+      <section class="page" id="page-new-invoice">
+        <div class="form-layout"><div class="form-main">
+          <div class="content-card form-card"><div class="card-heading"><div><h3>Customer and document</h3><p>Choose who this proforma invoice is for.</p></div><span class="pill">PROFORMA</span></div>
+            <div class="field-grid"><label class="field field-wide"><span>Customer</span><select id="invoiceCustomer"><option value="">Choose a customer</option></select></label><button class="button button-light add-customer-inline" id="quickAddCustomer">＋ Add customer</button><label class="field"><span>Quote number</span><input id="invoiceNumber" readonly></label><label class="field"><span>Invoice date</span><input id="invoiceDate" type="date"></label></div>
+          </div>
+          <div class="content-card form-card"><div class="card-heading"><div><h3>Items and services</h3><p>Add each item that should appear on the invoice.</p></div></div>
+            <div class="line-entry"><label class="field"><span>Particulars</span><input id="itemParticulars" list="productOptions" placeholder="e.g. Mahogany door"></label><datalist id="productOptions"></datalist><label class="field field-detail"><span>Description <small>Optional</small></span><input id="itemDescription" placeholder="e.g. Panelled door, 24 cm × 0.9 m"></label><label class="field field-quantity"><span>Quantity</span><input id="itemQuantity" type="number" min="0.01" step="0.01" value="1"></label><label class="field field-price"><span>Unit price (UGX)</span><input id="itemPrice" type="number" min="0" step="1" placeholder="0"></label><button class="button button-dark add-line-button" id="addLine">Add item</button></div>
+            <div class="table-wrap"><table class="data-table invoice-lines"><thead><tr><th>Qty</th><th>Particulars</th><th class="align-right">Unit price (UGX)</th><th class="align-right">Total price (UGX)</th><th></th></tr></thead><tbody id="lineItems"><tr class="empty-row"><td colspan="5">No items added yet. Add your first item above.</td></tr></tbody></table></div>
+            <div class="invoice-total"><span>Total (UGX)</span><strong id="invoiceTotal">0</strong></div>
+            <label class="field notes-field"><span>Notes or payment terms <small>Optional</small></span><textarea id="invoiceNotes" rows="3" placeholder="Add a delivery note or payment terms"></textarea></label>
+          </div>
+        </div><aside class="form-aside"><div class="summary-card"><span class="summary-label">DOCUMENT TOTAL</span><strong id="summaryTotal">UGX 0</strong><span class="summary-help">Prices are entered in Ugandan shillings.</span><div class="summary-rule"></div><div class="summary-meta"><span>Items</span><strong id="summaryCount">0</strong></div><div class="summary-meta"><span>Document type</span><strong>Proforma</strong></div></div><div class="action-stack"><button class="button button-primary button-full" id="saveInvoice">Save proforma invoice</button><button class="button button-light button-full" id="printDraft">Print preview</button><button class="button button-quiet button-full" data-reset-invoice>Cancel</button></div><p class="privacy-note">Your records stay in this browser on this computer. Export a backup from Company Settings.</p></aside></div>
+      </section>
+      <section class="page" id="page-history"><div class="content-card"><div class="card-heading history-heading"><div><h3>Saved invoices</h3><p>Open an invoice to print another copy.</p></div><label class="search-box"><span>⌕</span><input id="historySearch" placeholder="Search number or customer"></label></div><div id="historyTable"></div></div></section>
+      <section class="page" id="page-customers"><div class="content-card"><div class="card-heading"><div><h3>Customers</h3><p>Workspace administrators can edit or delete customers. Saved invoices keep their customer details.</p></div><button class="button button-primary" id="addCustomer">＋ Add customer</button></div><div id="customerTable"></div></div></section>
+      <section class="page" id="page-products"><div class="content-card"><div class="card-heading"><div><h3>Products and services</h3><p>Save frequently quoted items and their usual unit prices.</p></div><button class="button button-primary" id="addProduct">＋ Add product</button></div><div id="productTable"></div></div></section>
+      <section class="page" id="page-settings"><div class="settings-layout">
+        <div class="content-card form-card"><div class="card-heading"><div><h3>Company details</h3><p>These details appear at the top of printed invoices.</p></div></div><div class="settings-form">
+          <label class="field"><span>Business name</span><input id="settingName"></label><label class="field"><span>Address</span><input id="settingAddress"></label>
+          <div class="field-grid"><label class="field"><span>Email</span><input id="settingEmail" type="email"></label><label class="field"><span>Phone numbers</span><input id="settingPhones"></label></div>
+          <label class="field"><span>Tagline</span><input id="settingTagline"></label><label class="field"><span>Invoice number prefix</span><input id="settingPrefix" maxlength="10"></label>
+          <label class="field"><span>Company logo</span><input id="settingLogo" type="file" accept="image/*"><small class="field-help">A small square or landscape logo works best. It is included in cloud sync for your account.</small></label>
+          <div class="logo-preview-wrap"><img id="logoPreview" alt="Company logo preview"><span id="logoPlaceholder">Logo preview</span><button class="text-button danger-text" id="removeLogo" type="button">Remove logo</button></div>
+          <button class="button button-primary" id="saveSettings">Save company details</button>
+        </div></div>
+        <div class="content-card backup-card"><h3>Cloud account</h3><p>Connect a secure cloud workspace to use the same invoices on your phone and computer.</p><div class="settings-form cloud-form"><label class="field"><span>Cloud project URL</span><input id="cloudUrl" type="url" placeholder="https://your-project.supabase.co" autocomplete="url"></label><label class="field"><span>Public project key</span><input id="cloudKey" type="password" placeholder="Paste the public anon key" autocomplete="off"></label><button class="button button-light" id="saveCloudConfig" type="button">Save cloud connection</button><div class="field-grid"><label class="field"><span>Account email</span><input id="cloudEmail" type="email" autocomplete="username"></label><label class="field"><span>Password</span><input id="cloudPassword" type="password" autocomplete="current-password"></label></div><div class="cloud-actions"><button class="button button-primary" id="cloudSignIn" type="button">Sign in</button><button class="button button-light" id="cloudSignUp" type="button">Create account</button><button class="button button-light" id="cloudSyncNow" type="button">Sync now</button><button class="text-button danger-text" id="cloudSignOut" type="button">Sign out</button></div><p class="backup-note" id="cloudStatus" role="status">Not connected. Records are saved on this device.</p><p class="field-help">Use the included cloud setup guide once, then sign in with the same account on each device.</p></div></div>
+        <div class="content-card backup-card"><h3>Back up your records</h3><p>Save customers, products, invoices and settings to a file. Import it later to restore your records.</p><div class="backup-actions"><button class="button button-light" id="exportBackup">Download backup</button><label class="button button-light file-button">Import backup<input id="importBackup" type="file" accept="application/json"></label></div><p class="backup-note">Cloud sync keeps your devices aligned. Keep a separate backup for safekeeping.</p></div>
+      </div></section>
+    </main>
+  </div>
+  <dialog id="customerDialog" class="modal-dialog"><form id="customerForm" method="dialog"><div class="modal-heading"><div><h3 id="customerDialogTitle">Add customer</h3><p>Customer details are saved for your next invoice.</p></div><button class="icon-button" value="cancel" aria-label="Close">×</button></div><input type="hidden" id="customerId"><label class="field"><span>Name</span><input id="customerName" required></label><div class="field-grid"><label class="field"><span>Phone <small>Optional</small></span><input id="customerPhone"></label><label class="field"><span>Email <small>Optional</small></span><input id="customerEmail" type="email"></label></div><label class="field"><span>Address <small>Optional</small></span><textarea id="customerAddress" rows="2"></textarea></label><div class="modal-actions"><button class="button button-light" value="cancel">Cancel</button><button class="button button-primary" id="saveCustomer" value="default">Save customer</button></div></form></dialog>  <dialog id="productDialog" class="modal-dialog"><form id="productForm" method="dialog"><div class="modal-heading"><div><h3 id="productDialogTitle">Add product or service</h3><p>Save a reusable description and unit price.</p></div><button class="icon-button" value="cancel" aria-label="Close">×</button></div><input type="hidden" id="productId"><label class="field"><span>Description</span><input id="productName" required></label><label class="field"><span>Unit price (UGX)</span><input id="productPrice" type="number" min="0" step="1" required></label><div class="modal-actions"><button class="button button-light" value="cancel">Cancel</button><button class="button button-primary" id="saveProduct" value="default">Save product</button></div></form></dialog>  <div id="toast" class="toast" role="status" aria-live="polite"></div><div id="printRoot" aria-hidden="true"></div>  <script src="app.js"></script>
+  <script>if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('./sw.js').catch(function () {});</script>
+</body></html>

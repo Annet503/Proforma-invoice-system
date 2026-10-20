@@ -1,0 +1,13 @@
+{
+  "name": "Theomax Proforma Invoice System",
+  "short_name": "Theomax Invoices",
+  "description": "Create and share Theomax Wood Works proforma invoices.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7f3",
+  "theme_color": "#173f25",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
